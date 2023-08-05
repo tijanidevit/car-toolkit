@@ -15,7 +15,7 @@ const Cart = () => {
         <div className="my-2 row">
             {
                 carts.length > 0 ? carts.map(cart =>(
-                    <div key={cart.id} className="col-md-6 col-sm-6 mb-2 text-center">
+                    <div key={cart.id} className="col-md-6 col-sm-6 mb-4 text-center">
                         <Card  className="h-100">
                             <div className="text-center py-2">
                                 <Card.Img variant="top" src={cart.image} alt={cart.price} style={{width:'120px', height:'120px'}} />

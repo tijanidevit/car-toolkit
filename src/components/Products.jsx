@@ -1,29 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import  {Card, Button}  from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "../features/cartSlice";
+import { getProducts } from "../features/productSlice";
+import { BuilderStatusEnum } from "../enums/BuilderStatusEnum";
 
 function Products() {
-  const [products, setProducts] = useState([])
 
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-    .then(res=>res.json())
-    .then(data=> setProducts(data))
-
-  }, [])
-
-
+  
   const dispatch = useDispatch()
   const addToCart = (product) => {
     dispatch(add(product))
   }
+  useEffect(() => {
+    dispatch(getProducts())
+  }, [dispatch])
   
+  const {data:products, status} = useSelector(state => state.products)
 
   return (
     <div className="row">
       {
-        products.map(product =>(
+        status === BuilderStatusEnum.LOADING && <h3>Loading...</h3>
+      }
+      {
+        status === BuilderStatusEnum.REJECTED && <h3>Error loading project</h3>
+      }
+      {
+        products?.map(product =>(
           <div key={product.id} className="col-md-3 col-sm-6 mb-2 text-center">
             <Card  className="h-100">
               <div className="text-center py-2">
